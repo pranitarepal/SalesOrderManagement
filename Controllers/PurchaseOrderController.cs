@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace SalesOrderManagement.Controllers
 {
     [ApiController]
-    [Route("api/purchase-orders")]
+    [Route("api/orders")]
     public class PurchaseOrderController : ControllerBase
     {
         private readonly IPurchaseOrderService _service;
