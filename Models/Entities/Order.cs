@@ -23,5 +23,7 @@ namespace SalesOrderManagement.Models.Entities
         public decimal TotalAmount { get; set; }
 
         public string Notes { get; set; }
+
+        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }

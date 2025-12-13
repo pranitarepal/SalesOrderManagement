@@ -36,5 +36,16 @@ namespace SalesOrderManagement.Controllers
             }
             return Ok($"Order {id} status updated to Cancelled.");
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetOrderDetails(int id)
+        {
+            var result = await _service.GetOrderDetailsAsync(id);
+            if (result == null)
+            {
+                return NotFound($"Order with ID {id} not found.");
+            }
+            return Ok(result);
+        }
     }
 }

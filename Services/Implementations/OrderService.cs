@@ -3,6 +3,9 @@ using SalesOrderManagement.BusinessLogic.Interfaces;
 using SalesOrderManagement.DataAccess;
 using Microsoft.EntityFrameworkCore;
 
+using SalesOrderManagement.Models.DTOs;
+using System.Linq;
+
 namespace SalesOrderManagement.Services.Implementations
 {
     public class OrderService : IOrderService
@@ -39,6 +42,36 @@ namespace SalesOrderManagement.Services.Implementations
             order.OrderStatus = "Cancelled";
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<OrderDetailsDto> GetOrderDetailsAsync(int orderId)
+        {
+            var order = await _context.Orders
+                .Include(o => o.OrderItems)
+                .FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+            if (order == null)
+            {
+                return null;
+            }
+
+            return new OrderDetailsDto
+            {
+                OrderInfo = new OrderInfoDto
+                {
+                    OrderId = order.OrderId,
+                    OrderStatus = order.OrderStatus
+                },
+                ItemDetails = order.OrderItems.Select(i => new OrderItemDto
+                {
+                    ItemId = i.ItemId,
+                    ProductName = i.ProductName,
+                    Manufacturer = i.Manufacturer,
+                    Price = i.Price,
+                    Qty = i.Qty,
+                    Subtotal = i.Subtotal
+                }).ToList()
+            };
         }
     }
 }
