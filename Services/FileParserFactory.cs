@@ -28,7 +28,7 @@ namespace SalesOrderManagement.Services
                 ".xml" => new XmlFileParser(),
                 ".xlsx" => new ExcelFileParser(_serviceProvider.GetRequiredService<IAIService>()),
                 ".xls" => new ExcelFileParser(_serviceProvider.GetRequiredService<IAIService>()),
-                ".pdf" => new PdfFileParser(),
+                ".pdf" => new PdfFileParser(_serviceProvider.GetRequiredService<IAIService>()),
                 ".png" or ".jpg" or ".jpeg" or ".tiff" => new OcrFileParser(),
                 ".txt" => new CsvFileParser(), // Treat txt as CSV/TSV for now or implement TextParser
                 _ => null
