@@ -13,6 +13,9 @@ namespace SalesOrderManagement.Models.DTOs
         
         [JsonPropertyName("manufatcurer")]
         public string Brand { get; set; }
+
+        [JsonPropertyName("price")]
+        public decimal? Price { get; set; }
     }
 
     public class PurchaseOrderApiResponseDto

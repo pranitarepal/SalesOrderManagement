@@ -17,7 +17,7 @@ namespace SalesOrderManagement.DataAccess
             modelBuilder.Entity<PurchaseOrder>()
                 .HasMany(po => po.LineItems)
                 .WithOne(li => li.PurchaseOrder)
-                .HasForeignKey(li => li.PurchaseOrderId)
+                .HasForeignKey(li => li.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

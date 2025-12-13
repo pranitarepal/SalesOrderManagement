@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SalesOrderManagement.Models.Entities
 {
-    [Table("Order")]
     public class Order
     {
         [Key]

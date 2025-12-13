@@ -7,5 +7,6 @@ namespace SalesOrderManagement.BusinessLogic.Interfaces
     public interface IPurchaseOrderService
     {
         Task<PurchaseOrderApiResponseDto> ProcessPurchaseOrderAsync(IFormFile file);
+        Task<PurchaseOrderApiResponseDto> CreatePurchaseOrderAsync(CreatePurchaseOrderRequestDto request);
     }
 }

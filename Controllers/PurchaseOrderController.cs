@@ -43,5 +43,27 @@ namespace SalesOrderManagement.Controllers
                 });
             }
         }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateOrder([FromBody] CreatePurchaseOrderRequestDto request)
+        {
+            if (request == null)
+                return BadRequest("Invalid request body.");
+
+            try
+            {
+                var result = await _service.CreatePurchaseOrderAsync(request);
+                return Ok(result);
+            }
+            catch (Exception ex)
+            {
+                 return StatusCode(500, new PurchaseOrderApiResponseDto 
+                { 
+                    SourceFileName = "Manual Entry",
+                    Success = false, 
+                    ErrorMessage = ex.Message 
+                });
+            }
+        }
     }
 }

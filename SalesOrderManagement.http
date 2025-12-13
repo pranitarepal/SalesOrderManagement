@@ -1,4 +1,4 @@
-@SalesOrderManagement_HostAddress = http://localhost:5235
+@SalesOrderManagement_HostAddress = http://localhost:5240
 
 GET {{SalesOrderManagement_HostAddress}}/weatherforecast/
 Accept: application/json
