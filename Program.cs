@@ -9,12 +9,13 @@ builder.Services.AddSingleton<SalesOrderManagement.Services.FileParserFactory>()
 builder.Services.AddHttpClient<SalesOrderManagement.Services.AI.GeminiAIService>();
 builder.Services.AddTransient<SalesOrderManagement.Services.AI.IAIService, SalesOrderManagement.Services.AI.GeminiAIService>();
 
-// Register Entity Framework Core (SQLite)
+// Register Entity Framework Core (SQL Server)
 builder.Services.AddDbContext<SalesOrderManagement.DataAccess.SalesOrderDbContext>(options =>
-    options.UseSqlite("Data Source=salesorders.db"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Register Business Services
 builder.Services.AddScoped<SalesOrderManagement.BusinessLogic.Interfaces.IPurchaseOrderService, SalesOrderManagement.BusinessLogic.Implementations.PurchaseOrderService>();
+builder.Services.AddScoped<SalesOrderManagement.BusinessLogic.Interfaces.IOrderService, SalesOrderManagement.Services.Implementations.OrderService>();
 
 // builder.Services.AddOpenApi(); // Using Swashbuckle instead
 builder.Services.AddEndpointsApiExplorer();
