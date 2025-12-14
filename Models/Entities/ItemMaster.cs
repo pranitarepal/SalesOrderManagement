@@ -16,7 +16,7 @@ namespace SalesOrderManagement.Models.Entities
 
         public decimal Price { get; set; }
 
-        public string Desc { get; set; }
+        public string? Desc { get; set; }
 
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 
