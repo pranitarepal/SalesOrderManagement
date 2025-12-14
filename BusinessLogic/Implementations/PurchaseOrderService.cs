@@ -88,6 +88,7 @@ namespace SalesOrderManagement.BusinessLogic.Implementations
                 UserId = request.Customer?.UserId,
                 CreatedDate = DateTime.UtcNow,
                 IsDeleted = false,
+                OrderStatus="InProgress",
                 OrderItems = request.OrderLineItems.Select(i => new OrderItem
                 {
                     ItemId = i.ItemId,
