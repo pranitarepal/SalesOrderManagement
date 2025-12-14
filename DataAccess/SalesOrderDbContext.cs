@@ -9,6 +9,7 @@ namespace SalesOrderManagement.DataAccess
 
         public DbSet<PurchaseOrder> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<ItemMaster> ItemMasters { get; set; }
         public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
