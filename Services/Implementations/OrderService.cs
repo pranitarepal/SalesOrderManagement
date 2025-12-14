@@ -64,6 +64,8 @@ namespace SalesOrderManagement.Services.Implementations
                 {
                     OrderId = order.OrderId,
                     OrderStatus = order.OrderStatus ?? "Pending",
+                    OrderDate = order.CreatedDate,
+                    Notes = order.Notes,
                     ItemDetails = order.OrderItems?.Select(i => new OrderItemDto
                     {
                         ItemId = i.ItemId,
@@ -98,6 +100,8 @@ namespace SalesOrderManagement.Services.Implementations
                     {
                         OrderId = order.OrderId,
                         OrderStatus = order.OrderStatus ?? "Pending",
+                        OrderDate = order.CreatedDate,
+                        Notes = order.Notes,
                         ItemDetails = order.OrderItems?.Select(i => new OrderItemDto
                         {
                             ItemId = i.ItemId,
