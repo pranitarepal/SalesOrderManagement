@@ -7,5 +7,6 @@ namespace SalesOrderManagement.BusinessLogic.Interfaces
         Task<bool> DeleteOrderAsync(int id);
         Task<bool> CancelOrderAsync(int id);
         Task<SalesOrderManagement.Models.DTOs.OrderDetailsDto?> GetOrderDetailsAsync(int orderId);
+        Task<SalesOrderManagement.Models.DTOs.OrderListDto> GetOrdersByUserIdAsync(string userId);
     }
 }

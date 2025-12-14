@@ -81,5 +81,41 @@ namespace SalesOrderManagement.Services.Implementations
                 throw new Exception($"Error fetching order details: {ex.Message}", ex);
             }
         }
+
+        public async Task<OrderListDto> GetOrdersByUserIdAsync(string userId)
+        {
+            try
+            {
+                var orders = await _context.Orders
+                    .Include(o => o.OrderItems)
+                    .AsNoTracking()
+                    .Where(o => o.UserId == userId && o.IsDeleted != true)
+                    .ToListAsync();
+
+                var orderList = new OrderListDto
+                {
+                    Orders = orders.Select(order => new OrderDetailsDto
+                    {
+                        OrderId = order.OrderId,
+                        OrderStatus = order.OrderStatus ?? "Pending",
+                        ItemDetails = order.OrderItems?.Select(i => new OrderItemDto
+                        {
+                            ItemId = i.ItemId,
+                            ProductName = i.ProductName ?? string.Empty,
+                            Manufacturer = i.Manufacturer ?? string.Empty,
+                            Price = i.Price ?? 0,
+                            Qty = i.Qty ?? 0,
+                            Subtotal = i.Subtotal ?? 0
+                        }).ToList() ?? new List<OrderItemDto>()
+                    }).ToList()
+                };
+
+                return orderList;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error fetching orders for user {userId}: {ex.Message}", ex);
+            }
+        }
     }
 }

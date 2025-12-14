@@ -37,15 +37,29 @@ namespace SalesOrderManagement.Controllers
             return Ok($"Order {id} status updated to Cancelled.");
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetOrderDetails(int id)
+        [HttpGet]
+        public async Task<IActionResult> GetOrderDetails([FromQuery] int? orderId, [FromQuery] string? userId)
         {
-            var result = await _service.GetOrderDetailsAsync(id);
-            if (result == null)
+            // If orderId is provided, fetch specific order
+            if (orderId.HasValue)
             {
-                return NotFound($"Order with ID {id} not found.");
+                var result = await _service.GetOrderDetailsAsync(orderId.Value);
+                if (result == null)
+                {
+                    return NotFound($"Order with ID {orderId} not found.");
+                }
+                return Ok(result);
             }
-            return Ok(result);
+
+            // If userId is provided, fetch all orders for that user
+            if (!string.IsNullOrWhiteSpace(userId))
+            {
+                var result = await _service.GetOrdersByUserIdAsync(userId);
+                return Ok(result);
+            }
+
+            // If neither is provided, return bad request
+            return BadRequest("Either orderId or userId must be provided.");
         }
     }
 }

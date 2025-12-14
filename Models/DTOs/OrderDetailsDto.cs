@@ -11,6 +11,11 @@ namespace SalesOrderManagement.Models.DTOs
         public List<OrderItemDto> ItemDetails { get; set; } = new List<OrderItemDto>();
     }
 
+    public class OrderListDto
+    {
+        public List<OrderDetailsDto> Orders { get; set; } = new List<OrderDetailsDto>();
+    }
+
     //public class OrderInfoDto
     //{
     //    public int OrderId { get; set; }

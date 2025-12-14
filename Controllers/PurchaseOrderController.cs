@@ -44,7 +44,7 @@ namespace SalesOrderManagement.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("create")]
         public async Task<IActionResult> CreateOrder([FromBody] CreatePurchaseOrderRequestDto request)
         {
             if (request == null)
