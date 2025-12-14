@@ -16,6 +16,7 @@ builder.Services.AddDbContext<SalesOrderManagement.DataAccess.SalesOrderDbContex
 // Register Business Services
 builder.Services.AddScoped<SalesOrderManagement.BusinessLogic.Interfaces.IPurchaseOrderService, SalesOrderManagement.BusinessLogic.Implementations.PurchaseOrderService>();
 builder.Services.AddScoped<SalesOrderManagement.BusinessLogic.Interfaces.IOrderService, SalesOrderManagement.Services.Implementations.OrderService>();
+builder.Services.AddScoped<SalesOrderManagement.BusinessLogic.Interfaces.IUserService, SalesOrderManagement.Services.Implementations.UserService>();
 
 // builder.Services.AddOpenApi(); // Using Swashbuckle instead
 builder.Services.AddEndpointsApiExplorer();
