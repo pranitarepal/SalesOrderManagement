@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SalesOrderManagement.Models.Entities
 {
+    [Table("Order")]
     public class Order
     {
         [Key]
@@ -23,6 +24,6 @@ namespace SalesOrderManagement.Models.Entities
 
         public string Notes { get; set; }
 
-        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public List<OrderItem> LineItems { get; set; } = new List<OrderItem>();
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 using SalesOrderManagement.BusinessLogic.Interfaces;
 using SalesOrderManagement.DataAccess;
@@ -44,34 +45,41 @@ namespace SalesOrderManagement.Services.Implementations
             return true;
         }
 
-        public async Task<OrderDetailsDto> GetOrderDetailsAsync(int orderId)
+        public async Task<OrderDetailsDto?> GetOrderDetailsAsync(int orderId)
         {
-            var order = await _context.Orders
-                .Include(o => o.OrderItems)
-                .FirstOrDefaultAsync(o => o.OrderId == orderId);
-
-            if (order == null)
+            try
             {
-                return null;
-            }
+                var order = await _context.Orders
+                    .Include(o => o.OrderItems)
+                    .AsNoTracking()
+                    .FirstOrDefaultAsync(o => o.OrderId == orderId);
 
-            return new OrderDetailsDto
-            {
-                OrderInfo = new OrderInfoDto
+
+                if (order == null)
+                {
+                    return null;
+                }
+
+                return new OrderDetailsDto
                 {
                     OrderId = order.OrderId,
-                    OrderStatus = order.OrderStatus
-                },
-                ItemDetails = order.OrderItems.Select(i => new OrderItemDto
-                {
-                    ItemId = i.ItemId,
-                    ProductName = i.ProductName,
-                    Manufacturer = i.Manufacturer,
-                    Price = i.Price,
-                    Qty = i.Qty,
-                    Subtotal = i.Subtotal
-                }).ToList()
-            };
+                    OrderStatus = order.OrderStatus ?? "Pending",
+                    ItemDetails = order.OrderItems?.Select(i => new OrderItemDto
+                    {
+                        ItemId = i.ItemId,
+                        ProductName = i.ProductName ?? string.Empty,
+                        Manufacturer = i.Manufacturer ?? string.Empty,
+                        Price = i.Price ?? 0,
+                        Qty = i.Qty ?? 0,
+                        Subtotal = i.Subtotal ?? 0
+                    }).ToList() ?? new List<OrderItemDto>()
+                };
+            }
+            catch (Exception ex)
+            {
+                // Log the actual error for debugging
+                throw new Exception($"Error fetching order details: {ex.Message}", ex);
+            }
         }
     }
 }

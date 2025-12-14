@@ -10,12 +10,12 @@ namespace SalesOrderManagement.Models.Entities
         [Key]
         public int OrderLineItemId { get; set; }
         public int OrderId { get; set; }
-        public string ItemId { get; set; }
+        public int ItemId { get; set; }
         public string ProductName { get; set; }
         public string ProductDescription { get; set; }
         public string Manufacturer { get; set; }
         public int Qty { get; set; }
-        public decimal? Price { get; set; }
+        public decimal Price { get; set; }
         public decimal? SubTotal { get; set; }
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
 

@@ -15,16 +15,16 @@ namespace SalesOrderManagement.Models.DTOs
     public class CreateOrderLineItemDto
     {
         [JsonPropertyName("itemId")]
-        public int? ItemId { get; set; }
+        public int ItemId { get; set; }
 
-        [JsonPropertyName("itemName")]
+        [JsonPropertyName("ProductName")]
         public string? ItemName { get; set; }
 
-        [JsonPropertyName("quantity")]
+        [JsonPropertyName("Qty")]
         public int Quantity { get; set; }
 
         // Mispelling intentional to match user payload
-        [JsonPropertyName("manufatcurer")]
+        [JsonPropertyName("Manufacturer")]
         public string? Manufacturer { get; set; }
 
         [JsonPropertyName("price")]
@@ -34,6 +34,6 @@ namespace SalesOrderManagement.Models.DTOs
     public class CustomerDto
     {
         [JsonPropertyName("CustomerId")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
     }
 }

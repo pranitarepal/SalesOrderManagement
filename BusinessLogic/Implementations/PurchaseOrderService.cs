@@ -48,18 +48,18 @@ namespace SalesOrderManagement.BusinessLogic.Implementations
                 //Tax = processedResponse.Tax,
                 //GrandTotal = processedResponse.GrandTotal,
                 //SourceFileName = file.FileName,
-                LineItems = processedResponse.Items.Select(i => new PurchaseOrderLineItem
+                OrderItems = processedResponse.Items.Select(i => new OrderItem
                 {
                     ProductName = i.ItemName,
                     Qty = i.Quantity ?? 0,
                     Price = i.Price,
                     Manufacturer = i.Brand,
-                    SubTotal = i.Total
+                    Subtotal = i.Total
                 }).ToList()
             };
 
             // Save to Database
-            _context.PurchaseOrders.Add(purchaseOrder);
+            _context.Orders.Add(purchaseOrder);
             //await _context.SaveChangesAsync();
 
             // Return Restricted API DTO
@@ -87,24 +87,25 @@ namespace SalesOrderManagement.BusinessLogic.Implementations
                 //SourceFileName = "Manual Entry",
                 UserId = request.Customer?.UserId,
                 CreatedDate = DateTime.UtcNow,
-                LineItems = request.OrderLineItems?.Select(i => new PurchaseOrderLineItem
+                IsDeleted = false,
+                OrderItems = request.OrderLineItems.Select(i => new OrderItem
                 {
-                    ItemId = i.ItemId?.ToString(),
+                    ItemId = i.ItemId,
                     ProductName = i.ItemName,
                     Qty = i.Quantity,
                     Price = i.Price,
                     Manufacturer = i.Manufacturer,
-                    SubTotal = (decimal?)i.Quantity * (i.Price ?? 0) // Basic calc if needed
-                }).ToList() ?? new List<PurchaseOrderLineItem>()
-            };
+                    Subtotal = (decimal?)i.Quantity * i.Price // Basic calc if needed
+                }).ToList()
+            };//?? new List<PurchaseOrderLineItem>()
 
             // Calculate totals
-            purchaseOrder.TotalAmount = purchaseOrder.LineItems.Sum(li => li.SubTotal);
+            purchaseOrder.TotalAmount = purchaseOrder.OrderItems.Sum(li => li.Subtotal);
             //purchaseOrder.GrandTotal = purchaseOrder.Subtotal; // Simple logic for now
             try
             {
                 // Save to Database
-                _context.PurchaseOrders.Add(purchaseOrder);
+                _context.Orders.Add(purchaseOrder);
                 await _context.SaveChangesAsync();
             }
             catch(Exception ex)
@@ -118,7 +119,7 @@ namespace SalesOrderManagement.BusinessLogic.Implementations
                 SourceFileName = "Manual Entry",
                 DetectedType = "Manual Entry",
                 Success = true,
-                OrderLineItems = purchaseOrder.LineItems.Select(i => new PurchaseOrderApiItemDto
+                OrderLineItems = purchaseOrder.OrderItems.Select(i => new PurchaseOrderApiItemDto
                 {
                     ItemName = i.ProductName,
                     Quantity = i.Qty,

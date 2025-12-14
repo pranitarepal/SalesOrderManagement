@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace SalesOrderManagement.Models.Entities
 {
-    [Table("OrderItem")]
+    [Table("OrderLineItems")]
     public class OrderItem
     {
         [Key]
@@ -12,18 +12,18 @@ namespace SalesOrderManagement.Models.Entities
 
         public int OrderId { get; set; }
 
-        public string ProductName { get; set; }
+        public string? ProductName { get; set; }
 
-        public string Manufacturer { get; set; }
+        public string? Manufacturer { get; set; }
 
-        public decimal Price { get; set; }
+        public decimal? Price { get; set; }
 
-        public int Qty { get; set; }
+        public int? Qty { get; set; }
 
-        public decimal Subtotal { get; set; }
+        public decimal? Subtotal { get; set; }
 
         [JsonIgnore]
         [ForeignKey("OrderId")]
-        public Order Order { get; set; }
+        public PurchaseOrder? Order { get; set; }
     }
 }

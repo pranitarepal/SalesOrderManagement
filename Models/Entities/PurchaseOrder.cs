@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SalesOrderManagement.Models.Entities
 {
-    [Table("Order")]
+    [Table("Orders")]
     public class PurchaseOrder
     {
         [Key]
@@ -20,12 +20,12 @@ namespace SalesOrderManagement.Models.Entities
         //public decimal? GrandTotal { get; set; }
         //public string SourceFileName { get; set; }
         //public string DetectedType { get; set; }
-        public int? UserId { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.UtcNow;
-        public bool IsDeleted { get; set; }
-        public string OrderStatus { get; set; }
-        public string Notes { get; set; }
+        public string? UserId { get; set; }
+        public DateTime? CreatedDate { get; set; } = DateTime.UtcNow;
+        public bool? IsDeleted { get; set; }
+        public string? OrderStatus { get; set; }
+        public string? Notes { get; set; }
 
-        public List<PurchaseOrderLineItem> LineItems { get; set; } = new List<PurchaseOrderLineItem>();
+        public List<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
     }
 }
