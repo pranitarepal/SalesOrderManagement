@@ -1,4 +1,6 @@
 using System;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using SalesOrderManagement.BusinessLogic.Interfaces;
 using SalesOrderManagement.Models.DTOs;
@@ -23,6 +25,21 @@ namespace SalesOrderManagement.Controllers
         {
             if (file == null || file.Length == 0)
                 return BadRequest("No file uploaded.");
+
+            // Validate file extension
+            var allowedExtensions = new[] { ".xlsx", ".xls", ".docx", ".doc", ".txt", ".pdf" };
+            var fileExtension = Path.GetExtension(file.FileName)?.ToLowerInvariant();
+
+            if (string.IsNullOrEmpty(fileExtension) || !allowedExtensions.Contains(fileExtension))
+            {
+                return BadRequest(new PurchaseOrderApiResponseDto
+                {
+                    SourceFileName = file.FileName,
+                    DetectedType = fileExtension ?? "Unknown",
+                    Success = false,
+                    ErrorMessage = $"Invalid file format. Only Excel (.xlsx, .xls), Word (.docx, .doc), Text (.txt), and PDF files are allowed. Uploaded file: {fileExtension ?? "no extension"}"
+                });
+            }
 
             try
             {
