@@ -93,6 +93,11 @@ namespace SalesOrderManagement.BusinessLogic.Implementations
             // Map only valid items (that exist in ItemMaster) to Entity for database storage
             var purchaseOrder = new PurchaseOrder
             {
+                UserId = null,
+                CreatedDate = DateTime.UtcNow,
+                IsDeleted = false,
+                OrderStatus = "Pending",
+                Notes = $"Uploaded from file: {file.FileName}",
                 OrderItems = validItems.Select(i => new OrderItem
                 {
                     ProductName = i.ItemName,
@@ -102,6 +107,9 @@ namespace SalesOrderManagement.BusinessLogic.Implementations
                     Subtotal = i.Total
                 }).ToList()
             };
+
+            // Calculate total amount
+            purchaseOrder.TotalAmount = purchaseOrder.OrderItems.Sum(oi => oi.Subtotal);
 
             // Save to Database only if there are valid items
             if (validItems.Any())
@@ -168,6 +176,7 @@ namespace SalesOrderManagement.BusinessLogic.Implementations
                 CreatedDate = DateTime.UtcNow,
                 IsDeleted = false,
                 OrderStatus = "InProgress",
+                Notes = request.Notes,
                 OrderItems = request.OrderLineItems.Select(i => new OrderItem
                 {
                     ItemId = i.ItemId,

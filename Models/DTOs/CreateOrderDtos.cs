@@ -10,6 +10,9 @@ namespace SalesOrderManagement.Models.DTOs
 
         [JsonPropertyName("customer")]
         public CustomerDto Customer { get; set; }
+
+        [JsonPropertyName("notes")]
+        public string? Notes { get; set; }
     }
 
     public class CreateOrderLineItemDto
